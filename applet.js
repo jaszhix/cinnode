@@ -113,7 +113,8 @@ function main(metadata, orientation, panel_height, instance_id) {
       'transform-exponentiation-operator',
       'transform-es2015-template-literals'
     ],
-    moduleIds: true
+    moduleIds: true,
+    compact: false
   };
 
   if (typeof window.Promise === 'undefined') {
