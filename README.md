@@ -6,14 +6,8 @@ This allows Cinnamon extensions (xlets) to run in a pseudo NodeJS environment wi
 
 - Copy this project into your xlet's directory.
 - Rename ```applet.js``` (or its corresponding xlet name) to an alternative name such as ```__applet.js```.
-- In this project's ```applet.js``` file, find the line containing:
-
-```js
-    let applet = requireWithPath('./tests/main.js', CURRENT_DIR);
-```
-
-Change the js file name to your renamed file's name. This is the "real" entry point of your xlet.
-
+- In this project's ```applet.js``` file, find the declaration of the ENTRY_FILE constant, and change it your xlet's renamed entry file.
+- Uncomment the first import line of ```applet.js```.
 - In your entry file, replace the ```main``` function with an exported function, so it looks like this:
 
 ```js
@@ -25,9 +19,6 @@ module.exports = (function main(metadata, orientation, panel_height, instance_id
 ```
 We are passing the initial parameters of ```main``` to our Babel transpiled instance via the global context.
 
-- Uncomment the first import line of ```applet.js```.
-
 ## Todo
 
-- Add a check on whether the Cinnode environment was already loaded by another xlet.
 - Add tests for all Node API polyfills.
