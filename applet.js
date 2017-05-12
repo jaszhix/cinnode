@@ -1,4 +1,4 @@
-const Applet = imports.ui.applet;
+//const Applet = imports.ui.applet;
 
 function main(metadata, orientation, panel_height, instance_id) {
   global[metadata.uuid] = [metadata, orientation, panel_height, instance_id];
@@ -13,6 +13,13 @@ function main(metadata, orientation, panel_height, instance_id) {
   const PROGRAM_DIR = CURRENT_DIR;
 
   window.ARGV = [metadata.path];
+
+  // Check the env and load the applet if requireWithPath is available. This prevents us from reloading and overwriting
+  // globals after an applet has already loaded Cinnode.
+  if (typeof requireWithPath !== 'undefined') {
+    let applet = requireWithPath(ENTRY_FILE, CURRENT_DIR);
+    return applet;
+  }
 
   // inject the cinnode folder to import at runtime internal helpers
   imports.searchPath.push([PROGRAM_DIR, 'cinnode_modules'].join(DIR_SEPARATOR));
@@ -50,13 +57,6 @@ function main(metadata, orientation, panel_height, instance_id) {
       }
     }
   );
-
-  // Check the env and load the applet if requireWithPath is available. This prevents us from reloading and overwriting
-  // globals after an applet has already loaded Cinnode.
-  if (typeof requireWithPath !== 'undefined') {
-    let applet = requireWithPath(ENTRY_FILE, CURRENT_DIR);
-    return applet;
-  }
 
   // module handler
   window.evaluateModule = function (sanitize, nmsp, unique, id, fd) {
