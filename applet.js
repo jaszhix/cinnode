@@ -1,7 +1,11 @@
 //const Applet = imports.ui.applet;
 
+// If this is true, it will force all modules to reload when an xlet is restarted.
+window.__DEBUG = false;
+
 function main(metadata, orientation, panel_height, instance_id) {
   global[metadata.uuid] = [metadata, orientation, panel_height, instance_id];
+
   const runtime = Function;
   const replace = String.prototype.replace;
 
@@ -173,7 +177,7 @@ function main(metadata, orientation, panel_height, instance_id) {
   ARGV.core = core;
   window.process = core.get('process');
   window.timers = core.get('timers');
-  window.console = core.get('console');;
+  window.console = core.get('console');
 
   delete ARGV.core;
   window.clearInterval = global.clearInterval;
